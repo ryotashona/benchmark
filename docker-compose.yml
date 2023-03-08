@@ -11,6 +11,9 @@ services:
       - 3000
     volumes:
       - ./src/front/react:/usr/src/app
+    environment:
+        # Fixes bug where websocket connection is fixed to default port 3000
+        - WDS_SOCKET_PORT=0
 
 #   back-php:
 #     container_name: back-php
