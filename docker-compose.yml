@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  front-react:
+    container_name: front-react
+    build:
+      context: ./env/front/react
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 3000
+    volumes:
+      - ./src/front/react:/usr/src/app
+
+#   back-php:
+#     container_name: back-php
+
+#   back-golang:
+#     container_name: back-golang
+
+#   back-rust:
+#     container_name: back-rust
+
+#   db-mysql:
+#     container_name: db-mysql
+
+  proxy-nginx:
+    container_name: proxy-nginx
+    build:
+      context: ./env/proxy/nginx
+      dockerfile: Dockerfile
+    hostname: proxy-nginx
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - ./src/proxy/nginx:/etc/nginx/conf.d
+    depends_on:
+      - front-react
+
+#   phpmyadmin:
+#     container_name: phpmyadmin
+
+
+# volumes:
+#   mysql-volume:
