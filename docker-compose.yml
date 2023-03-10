@@ -15,14 +15,25 @@ services:
         # Fixes bug where websocket connection is fixed to default port 3000
         - WDS_SOCKET_PORT=0
 
-#   back-php:
-#     container_name: back-php
+  back-php:
+    container_name: back-php
+    build:
+      context: ./env/back/php
+      dockerfile: Dockerfile
+    volumes:
+      - ./src/back/php:/opt/
 
 #   back-golang:
 #     container_name: back-golang
 
-#   back-rust:
-#     container_name: back-rust
+  back-rust:
+    container_name: back-rust
+    build:
+      context: ./env/back/rust
+      dockerfile: Dockerfile
+    tty: true
+    volumes:
+      - ./src/back/rust:/opt/
 
 #   db-mysql:
 #     container_name: db-mysql
