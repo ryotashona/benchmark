@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  text-align: left;
 }
 
 .App-logo {
@@ -35,4 +35,24 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.Bench {
+  display: flex;
+}
+
+.Bench div {
+  min-width: 10rem;
+  margin: 0.5rem;
+  border: 1px solid #000;
+}
+
+.Bench button {
+  margin-block-start: 0.5rem;
+  margin-inline-start: 0.5rem;
+}
+
+.Bench p {
+  font-size: medium;
+  min-height: 5rem;
 }
