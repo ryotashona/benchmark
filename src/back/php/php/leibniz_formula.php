@@ -8,5 +8,5 @@ function leibniz_formula() {
     return $s * 4;
 }
 
-$pai = leibniz_formula();
-echo 'pai='.$pai."\n";
+$pi = leibniz_formula();
+echo 'pi='.$pi."\n";

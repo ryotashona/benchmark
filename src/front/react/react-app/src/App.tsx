@@ -2,23 +2,29 @@ import React, {useState, useCallback, FC} from 'react';
 import './App.css';
 
 
-function doBenche(kind:string, lang:string) {
+function doBenche(kind:string, lang:string, callback:React.Dispatch<React.SetStateAction<string>>) {
     var url = "";
-    var result = "none"
     if (lang == "php") {
-        url += "back";
-        if (kind == "pai") {
-            result = "hoge\npiyo\nhuga";
+        url += "/php/index.php?";
+        if (kind == "pi") {
+            url += "kind=pi";
         } else {
-
+            url += "kind=io";
         }
-        result = "hoge\npiyo\nfuga"
     } else if (lang == "go") {
-
+        callback("未対応機能");
     } else if (lang == "rust") {
-
+        callback("未対応機能");
     }
-    return result;
+    fetch(url)
+    .then(
+        res => {return res.json()}
+    ).then(
+        data => {
+            callback(data.res);
+        }
+    );
+    return;
 } 
 
 const BenchResult = ({ result }: {result:string}) => {
@@ -37,9 +43,7 @@ const Func = ( {kind,lang}:{kind:string,lang:string} )  => {
 
     const onClickButton = () => {
         setResult("計測中・・・");
-        var res = doBenche(kind,lang);
-        console.log(res);
-        setResult(res);
+        doBenche(kind,lang,setResult);
     }
 
 
@@ -67,11 +71,12 @@ const Func = ( {kind,lang}:{kind:string,lang:string} )  => {
 const App: React.FC = () => {
     return (
         <div className="App">
-            <h1>pai</h1>
+            <h1>π級数</h1>
+            <h4>[(-1)^n / (2n+1)]をn=0～10^8まで累計して X 4</h4>
             <div className="Bench">
-                <Func kind="pai" lang="php" />
-                <Func kind="pai" lang="rust" />
-                <Func kind="pai" lang="go" />
+                <Func kind="pi" lang="php" />
+                <Func kind="pi" lang="rust" />
+                <Func kind="pi" lang="go" />
             </div>
             <h1>I/O</h1>
             <div className="Bench">
