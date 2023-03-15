@@ -22,6 +22,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./src/back/php:/opt/
+    ports:
+      - 9000
 
 #   back-golang:
 #     container_name: back-golang
