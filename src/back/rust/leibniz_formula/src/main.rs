@@ -1,5 +1,5 @@
 fn main() {
-    println!("pai={}", leibniz_formula());
+    println!("pi={}", leibniz_formula());
 }
 
 fn leibniz_formula() -> f64 {

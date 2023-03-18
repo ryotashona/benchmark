@@ -13,14 +13,25 @@ function doBenche(kind:string, lang:string, callback:React.Dispatch<React.SetSta
         }
     } else if (lang == "go") {
         callback("未対応機能");
+        return;
     } else if (lang == "rust") {
-        callback("未対応機能");
+        url += "/rust/?";
+        if (kind == "pi") {
+            url += "kind=pi";
+        } else {
+            callback("未対応機能");
+            return;
+        }
     }
     fetch(url)
     .then(
-        res => {return res.json()}
+        res => {
+            console.log(res);
+            return res.json();
+        }
     ).then(
         data => {
+            console.log(data);
             callback(data.res);
         }
     );

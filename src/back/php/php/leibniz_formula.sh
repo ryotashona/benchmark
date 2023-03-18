@@ -7,4 +7,4 @@ fmt="\nreal:%e[sec]\nuser:%U[sec]\nsys:%S[sec]\nMemory:%M[KB]"
 
 sed -i '/^$/d' ${out_file}
 
-cat ${out_file}
+#cat ${out_file}
