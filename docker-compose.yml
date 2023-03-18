@@ -33,9 +33,11 @@ services:
     build:
       context: ./env/back/rust
       dockerfile: Dockerfile
-    tty: true
+    restart: always
     volumes:
       - ./src/back/rust:/opt/
+    ports:
+      - 9001:9001
 
 #   db-mysql:
 #     container_name: db-mysql
