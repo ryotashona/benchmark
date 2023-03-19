@@ -1,19 +1,19 @@
 version: '3'
 
 services:
-  front-react:
-    container_name: front-react
-    build:
-      context: ./env/front/react
-      dockerfile: Dockerfile
-    restart: always
-    ports:
-      - 3000
-    volumes:
-      - ./src/front/react:/usr/src/app
-    environment:
-        # Fixes bug where websocket connection is fixed to default port 3000
-        - WDS_SOCKET_PORT=0
+  # front-react:
+  #   container_name: front-react
+  #   build:
+  #     context: ./env/front/react
+  #     dockerfile: Dockerfile
+  #   restart: always
+  #   ports:
+  #     - 3000
+  #   volumes:
+  #     - ./src/front/react:/usr/src/app
+  #   environment:
+  #       # Fixes bug where websocket connection is fixed to default port 3000
+  #       - WDS_SOCKET_PORT=0
 
   back-php:
     container_name: back-php
@@ -34,10 +34,10 @@ services:
       context: ./env/back/rust
       dockerfile: Dockerfile
     restart: always
-    volumes:
-      - ./src/back/rust:/opt/
+    # volumes:
+    #   - ./src/back/rust:/opt/
     ports:
-      - 9001:9001
+      - 9001
 
 #   db-mysql:
 #     container_name: db-mysql
@@ -54,7 +54,7 @@ services:
     volumes:
       - ./src/proxy/nginx:/etc/nginx/conf.d
     depends_on:
-      - front-react
+      - back-rust
 
 #   phpmyadmin:
 #     container_name: phpmyadmin
