@@ -31,8 +31,8 @@ services:
       context: ./env/back/golang
       dockerfile: Dockerfile
     restart: always
-    volumes:
-      - ./src/back/golang:/opt/
+    # volumes:
+    #   - ./src/back/golang:/opt/
     ports:
       - 9002
 
