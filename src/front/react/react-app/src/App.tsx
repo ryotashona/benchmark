@@ -1,27 +1,16 @@
 import React, {useState, useCallback, FC} from 'react';
 import './App.css';
+import loading_img from './loading.gif';
 
 
 function doBenche(kind:string, lang:string, callback:React.Dispatch<React.SetStateAction<string>>) {
     var url = "";
     if (lang == "php") {
-        url += "/php/index.php?";
-        if (kind == "pi") {
-            url += "kind=pi";
-        } else {
-            url += "kind=io";
-        }
+        url += "/php/index.php?kind=" + kind;
     } else if (lang == "go") {
-        callback("未対応機能");
-        return;
+        url += "/golang/?kind=" + kind;
     } else if (lang == "rust") {
-        url += "/rust/?";
-        if (kind == "pi") {
-            url += "kind=pi";
-        } else {
-            callback("未対応機能");
-            return;
-        }
+        url += "/rust/?kind=" + kind;
     }
     fetch(url)
     .then(
@@ -39,6 +28,14 @@ function doBenche(kind:string, lang:string, callback:React.Dispatch<React.SetSta
 } 
 
 const BenchResult = ({ result }: {result:string}) => {
+    if (result == "計測中・・・") {
+        return (
+            <>
+            <p></p>
+            <img src={loading_img}></img>
+            </>
+        )
+    }
     const texts = result.split(/(\n)/).map((item, index) => {
       return (
         <React.Fragment key={index}>
@@ -46,7 +43,11 @@ const BenchResult = ({ result }: {result:string}) => {
         </React.Fragment>
       );
     });
-    return <p>{texts}</p>;
+    return (
+        <>
+        <p>{texts}</p>
+        </>
+    );
   }
 
 const Func = ( {kind,lang}:{kind:string,lang:string} )  => {
@@ -61,13 +62,13 @@ const Func = ( {kind,lang}:{kind:string,lang:string} )  => {
     var button_str = "";
     switch (lang) {
         case "php":
-            button_str = 'PHP8-JIT';
+            button_str = 'PHP8-JIT Start';
             break;
         case "go":
-            button_str = 'golung';
+            button_str = 'golang Start';
             break;
         case "rust":
-            button_str = 'rust';
+            button_str = 'rust Start';
             break;
     }
     return (
@@ -80,20 +81,59 @@ const Func = ( {kind,lang}:{kind:string,lang:string} )  => {
 };
 
 const App: React.FC = () => {
+    var pi_dec = "[(-1)^n / (2n+1)]をn=0～10^8まで累計して X 4";
+    var fib_dec = "function getFibonacciNumber(int $n): int {<br/>return $n &lt; 2 ? $n : getFibonacciNumber($n - 1) + getFibonacciNumber($n - 2);<br/>}";
+
     return (
         <div className="App">
-            <h1>π級数</h1>
-            <h4>[(-1)^n / (2n+1)]をn=0～10^8まで累計して X 4</h4>
-            <div className="Bench">
-                <Func kind="pi" lang="php" />
-                <Func kind="pi" lang="rust" />
-                <Func kind="pi" lang="go" />
+            <div className="BenchDiv">
+                <div className='BenchDec'>
+                    <h1>ライプニッツ級数(単純ループ計算処理)</h1>
+                    <h2>
+                        <pre>
+                            {"[(-1)^n / (2n+1)]"}<br/>
+                            {"↑をn=0～100000000まで累計して X 4"}<br/>
+                        </pre>
+                    </h2>
+                </div>
+                <div className="Bench">
+                    <Func kind="pi" lang="php" />
+                    <Func kind="pi" lang="rust" />
+                    <Func kind="pi" lang="go" />
+                </div>
             </div>
-            <h1>I/O</h1>
-            <div className="Bench">
-                <Func kind="io" lang="php" />
-                <Func kind="io" lang="rust" />
-                <Func kind="io" lang="go" />
+            <div className="BenchDiv">
+                <div className='BenchDec'>
+                    <h1>フィボナッチ数列(再帰呼び出し)</h1>
+                    <h2>
+                        <pre>
+                            {"function getFib(int $n): int {"}<br/>
+                            {"    return $n < 2 ? $n : getFib($n - 1) + getFib($n - 2);"}<br/>
+                            {"}"}<br/>
+                            {"getFib(40);"}<br/>
+                        </pre>
+                    </h2>
+                </div>
+                <div className="Bench">
+                    <Func kind="fib" lang="php" />
+                    <Func kind="fib" lang="rust" />
+                    <Func kind="fib" lang="go" />
+                </div>
+            </div>
+            <div className="BenchDiv">
+                <div className='BenchDec'>
+                    <h1>I/O</h1>
+                    <h2>
+                        <pre>
+                            {"未実装"}<br/>
+                        </pre>
+                    </h2>
+                </div>
+                <div className="Bench">
+                    <Func kind="io" lang="php" />
+                    <Func kind="io" lang="rust" />
+                    <Func kind="io" lang="go" />
+                </div>
             </div>
         </div>
     )

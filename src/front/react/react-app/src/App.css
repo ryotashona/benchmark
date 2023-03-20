@@ -1,6 +1,7 @@
 .App {
   text-align: left;
   padding: 0.5rem;
+  width: 40rem;
 }
 
 .App-logo {
@@ -40,20 +41,54 @@
 
 .Bench {
   display: flex;
+  margin-block-end: 2rem;
 }
 
 .Bench div {
-  min-width: 10rem;
+  min-width: 11rem;
   margin: 0.5rem;
+  padding: 0.5rem;
   border: 1px solid #000;
+  background-color: lightcyan;
+  border-radius: 0.5rem;
+  min-height: 11rem;
 }
 
 .Bench button {
-  margin-block-start: 0.5rem;
-  margin-inline-start: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: royalblue;
+  color: whitesmoke;
+  font-size: large;
+}
+
+.Bench button:hover {
+  background-color: blue;
 }
 
 .Bench p {
   font-size: medium;
-  min-height: 5rem;
+}
+
+.BenchDec h1{
+  margin: 0.5rem;
+}
+
+.BenchDec h2{
+  margin: 0.5rem;
+  padding: 0.5rem;
+  border: #000 solid;
+  border-radius: 1rem;
+  background-color: gray;
+}
+
+.BenchDec pre{
+  margin: 0rem;
+  color: #f6f4f4;
+}
+
+.BenchDiv {
+  background-color: aqua;
+  border: #000 solid;
+  border-radius: 0.2rem;
+  margin-block-end: 0.2rem;
 }
