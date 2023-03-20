@@ -9,6 +9,8 @@ if(file_exists($result_file)) {
 
 if ($kind == 'pi') {
     exec('sh /opt/php/leibniz_formula.sh');
+} else if ($kind == 'fib') {
+    exec('sh /opt/php/fibonacci.sh');
 } else if ($kind == 'io') {
     // todo:
 } else {

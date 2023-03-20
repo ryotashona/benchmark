@@ -25,8 +25,16 @@ services:
     ports:
       - 9000
 
-#   back-golang:
-#     container_name: back-golang
+  back-golang:
+    container_name: back-golang
+    build:
+      context: ./env/back/golang
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - ./src/back/golang:/opt/
+    ports:
+      - 9002
 
   back-rust:
     container_name: back-rust
@@ -37,7 +45,7 @@ services:
     volumes:
       - ./src/back/rust:/opt/
     ports:
-      - 9001:9001
+      - 9001
 
 #   db-mysql:
 #     container_name: db-mysql
