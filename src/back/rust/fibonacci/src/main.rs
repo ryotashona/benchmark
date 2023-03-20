@@ -1,5 +1,5 @@
 fn main() {
-    println!("fib={}", fibonacci(44));
+    println!("fib={}", fibonacci(40));
 }
 
 fn fibonacci(n: i32) -> i32 {

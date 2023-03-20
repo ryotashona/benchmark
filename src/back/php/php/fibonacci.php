@@ -7,5 +7,5 @@ function fibonacci(int $n) : int
         return fibonacci($n - 2) + fibonacci($n - 1);
     }
 }
-$fib = fibonacci(44);
+$fib = fibonacci(40);
 echo 'fib='.$fib."\n";

@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Print("fib=", fibonacci(44), "\n")
+	fmt.Print("fib=", fibonacci(40), "\n")
 }
 
 func fibonacci(n int32) int32 {
