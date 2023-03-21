@@ -23,6 +23,11 @@ RUN mkdir -p /opt/fibonacci/target/release/
 COPY ./fibonacci /opt/fibonacci/target/release/
 COPY ./fibonacci.sh /opt/fibonacci/
 
+RUN mkdir -p /opt/io/target/release/
+COPY ./io /opt/io/target/release/
+COPY ./io.sh /opt/io/
+COPY ./test_in.csv /opt/
+
 RUN mkdir -p /opt/rust_server/target/release/
 COPY ./rust_server /opt/rust_server/target/release/
 ENTRYPOINT [ "/opt/rust_server/target/release/rust_server" ]
