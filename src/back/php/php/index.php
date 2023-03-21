@@ -12,7 +12,7 @@ if ($kind == 'pi') {
 } else if ($kind == 'fib') {
     exec('sh /opt/php/fibonacci.sh');
 } else if ($kind == 'io') {
-    // todo:
+    exec('sh /opt/php/io.sh');
 } else {
     // nop.
 }

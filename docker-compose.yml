@@ -14,6 +14,8 @@ services:
     environment:
         # Fixes bug where websocket connection is fixed to default port 3000
         - WDS_SOCKET_PORT=0
+    depends_on:
+      - db
 
   back-php:
     container_name: back-php
@@ -24,6 +26,8 @@ services:
       - ./src/back/php:/opt/
     ports:
       - 9000
+    depends_on:
+      - db
 
   back-golang:
     container_name: back-golang
@@ -35,6 +39,8 @@ services:
       - ./src/back/golang:/opt/
     ports:
       - 9002
+    depends_on:
+      - db
 
   back-rust:
     container_name: back-rust
@@ -46,9 +52,37 @@ services:
       - ./src/back/rust:/opt/
     ports:
       - 9001
+    depends_on:
+      - db
 
-#   db-mysql:
-#     container_name: db-mysql
+  db:
+    container_name: db
+    build:
+      context: ./env/db/mysql
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - db-mysql-volume:/var/lib/mysql
+      - ./env/db/mysql/conf.d:/etc/mysql/conf.d
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bench
+      MYSQL_USER: bench
+      MYSQL_PASSWORD: bench
+    ports:
+      - 3306
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - db
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOSTS=db
+      - PMA_USER=bench
+      - PMA_PASSWORD=bench
+    ports:
+      - "8080:80"
 
   proxy-nginx:
     container_name: proxy-nginx
@@ -64,9 +98,5 @@ services:
     depends_on:
       - front-react
 
-#   phpmyadmin:
-#     container_name: phpmyadmin
-
-
-# volumes:
-#   mysql-volume:
+volumes:
+  db-mysql-volume:
