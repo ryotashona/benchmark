@@ -37,7 +37,7 @@ fn do_bench(kind: &str) -> String {
     let sh_path: &str = match kind {
         "pi" => "/opt/leibniz_formula/leibniz_formula.sh",
         "fib" => "/opt/fibonacci/fibonacci.sh",
-        "io" => return "未対応機能".to_string(),
+        "io" => "/opt/io/io.sh",
         _ => return "未対応機能".to_string(),
     };
 

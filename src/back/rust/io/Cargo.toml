@@ -1,0 +1,15 @@
+[package]
+name = "io"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+sqlx = { version = "0.6.2", features = [ "runtime-tokio-rustls", "mysql" ] }
+tokio = { version = "1.26.0", features = ["full"] }
+csv = "1.2.1"
+rand = "0.8.5"
+sha2 = "0.10.6"
+digest = "0.10.6"
+futures = "0.3.27"
