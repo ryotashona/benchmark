@@ -1,3 +1,7 @@
+# branch
+- `dev` :カスタマイズしたい場合にはこちらを。reactやrustのビルドが動くので重いです。
+- `_oci_` :ビルド済みバイナリが動きます。ベンチを動かしたいだけの方はこちらを。
+
 # 起動方法
 ```markdown
 docker-compose up -d --build
