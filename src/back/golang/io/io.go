@@ -25,7 +25,7 @@ func main() {
 			return
 		}
 	}
-	println("OK!!")
+	fmt.Print("io=OK!!\n")
 	return
 }
 

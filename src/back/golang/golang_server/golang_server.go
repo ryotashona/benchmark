@@ -18,6 +18,9 @@ func do_bench(kind string) string {
 	case "fib":
 		sh_path = "/opt/fibonacci/fibonacci.sh"
 		break
+	case "io":
+		sh_path = "/opt/io/io.sh"
+		break
 	default:
 		_ = sh_path
 		return "未対応機能"
