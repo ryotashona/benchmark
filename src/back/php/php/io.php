@@ -8,27 +8,46 @@ function io() {
         createTable($dbh, $table_name);
 
         // in_csv -> DB
-        $fp_in = fopen('/opt/php/test_in.csv', 'r');
+        $file_in = new SplFileObject("/opt/php/test_in.csv");
+        $file_in->setFlags(
+            SplFileObject::READ_CSV |
+            SplFileObject::SKIP_EMPTY |
+            SplFileObject::DROP_NEW_LINE |
+            SplFileObject::READ_AHEAD
+        );
         // $dbh->beginTransaction();    // あえてトランザクションは利用しない.
-        while($line = fgetcsv($fp_in)){
+        foreach ($file_in as $line) {
             insertData($dbh, $table_name, $line);
         }
-        fclose($fp_in);
+        $file_in = null;
         // $dbh->commit();
 
         // DB-> out_csv
-        $fp_out = fopen("/var/tmp/{$table_name}.csv", 'w');
+        $file_out = new SplFileObject("/var/tmp/{$table_name}.csv", 'w');
         $sth = $dbh->query("select * from {$table_name};");
         while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-            outputCsv($fp_out, $row);
+            outputCsv($file_out, $row);
         }
-        fclose($fp_out);
+        $file_out = null;
 
         // in_csv vs out_csv
-        $fp_in = fopen('/opt/php/test_in.csv', 'r');
-        $fp_out = fopen("/var/tmp/{$table_name}.csv", 'r');
-        while($line_in = fgetcsv($fp_in)) {
-            $line_out = fgetcsv($fp_out);
+        $file_in = new SplFileObject("/opt/php/test_in.csv");
+        $file_in->setFlags(
+            SplFileObject::READ_CSV |
+            SplFileObject::SKIP_EMPTY |
+            SplFileObject::DROP_NEW_LINE |
+            SplFileObject::READ_AHEAD
+        );
+        $file_out = new SplFileObject("/var/tmp/{$table_name}.csv");
+        $file_out->setFlags(
+            SplFileObject::READ_CSV |
+            SplFileObject::SKIP_EMPTY |
+            SplFileObject::DROP_NEW_LINE |
+            SplFileObject::READ_AHEAD
+        );
+        foreach ($file_in as $line_in) {
+            $line_out = $file_out->fgetcsv();
+
             for ($i=0; $i < 5; $i++) { 
                 if ($line_in[$i] != $line_out[$i]) {
                     echo 'in/out チェックエラー: '."\n";
@@ -36,6 +55,8 @@ function io() {
                 }
             }
         }
+        $file_in = null;
+        $file_out = null;
 
         unlink("/var/tmp/{$table_name}.csv");
         dropTable($dbh, $table_name);
@@ -45,14 +66,14 @@ function io() {
     return 'OK!!';
 }
 
-function outputCsv($fp_out, array $row) {
+function outputCsv(SplFileObject $file_out, array $row) {
     $line = [$row['data_1'],$row['data_2'],$row['data_3'],$row['data_4'],$row['data_5']];
     $data_hash = getDataHash($line);
     if ($data_hash != $row['data_hash']) {
         echo 'hash チェックエラー: '."\n";
         exit;
     }
-    fputcsv($fp_out, $line);
+    $file_out->fputcsv($line);
 }
 
 function getDbh():PDO {
