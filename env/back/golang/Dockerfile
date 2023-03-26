@@ -15,6 +15,11 @@ RUN mkdir -p /opt/fibonacci/bin/
 COPY ./fibonacci /opt/fibonacci/bin/
 COPY ./fibonacci.sh /opt/fibonacci/
 
+RUN mkdir -p /opt/io/bin/
+COPY ./io /opt/io/bin/
+COPY ./io.sh /opt/io/
+COPY ./test_in.csv /opt/
+
 RUN mkdir -p /opt/golang_server/bin/
 COPY ./golang_server /opt/golang_server/bin/
 ENTRYPOINT [ "/opt/golang_server/bin/golang_server" ]
