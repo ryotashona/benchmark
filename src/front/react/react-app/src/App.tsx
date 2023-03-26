@@ -81,9 +81,6 @@ const Func = ( {kind,lang}:{kind:string,lang:string} )  => {
 };
 
 const App: React.FC = () => {
-    var pi_dec = "[(-1)^n / (2n+1)]をn=0～10^8まで累計して X 4";
-    var fib_dec = "function getFibonacciNumber(int $n): int {<br/>return $n &lt; 2 ? $n : getFibonacciNumber($n - 1) + getFibonacciNumber($n - 2);<br/>}";
-
     return (
         <div className="App">
             <div className="BenchDiv">
@@ -122,11 +119,17 @@ const App: React.FC = () => {
             </div>
             <div className="BenchDiv">
                 <div className='BenchDec'>
-                    <h1>I/O</h1>
+                    <h1>I/O処理</h1>
                     <h2>
                         <pre>
-                            {"未実装"}<br/>
+                            {"input_file: 1レコード:int型:5カラム 200レコードのcsv"}<br/><br/>
+                            {"上記CSVをDB(mysql)にinsert (トランザクション制御なし)"}<br/>
+                            {"insertしたデータをcsvに書き出し"}<br/>
+                            {"書き出したcsvとインプットファイルのレコード比較"}<br/>
+                            {"以上を5回繰り返す"}<br/>
                         </pre>
+                        <p>※rustおよびgolangはi/o制御を非同期で実装しているため、このベンチ(1スレッド限定条件)では非同期オーバーヘッドの影響が出ています。</p>                        
+                        <p>rustは同期実装も可能なので、将来的にはそちらでも比較してみたいが、phpと速度結果は大きく変わらないはず。</p>
                     </h2>
                 </div>
                 <div className="Bench">
