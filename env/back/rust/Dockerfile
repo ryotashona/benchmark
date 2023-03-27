@@ -7,7 +7,7 @@ RUN apt-get update\
 
 # !!上位ディレクトリは見れない!!
 # WORKDIR /opt
-# COPY ../../../src/back/rust/ .
+# COPY ../../../back/rust/ .
 
 WORKDIR /opt
 # アプリケーションをビルド&実行する

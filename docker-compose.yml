@@ -10,7 +10,7 @@ services:
     ports:
       - 3000
     volumes:
-      - ./src/front/react:/usr/src/app
+      - ./front/react:/usr/src/app
     environment:
         # Fixes bug where websocket connection is fixed to default port 3000
         - WDS_SOCKET_PORT=0
@@ -23,7 +23,7 @@ services:
       context: ./env/back/php
       dockerfile: Dockerfile
     volumes:
-      - ./src/back/php:/opt/
+      - ./back/php:/opt/
     ports:
       - 9000
     depends_on:
@@ -36,7 +36,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     volumes:
-      - ./src/back/golang:/opt/
+      - ./back/golang:/opt/
     ports:
       - 9002
     depends_on:
@@ -49,7 +49,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     volumes:
-      - ./src/back/rust:/opt/
+      - ./back/rust:/opt/
     ports:
       - 9001
     depends_on:
@@ -94,7 +94,7 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./src/proxy/nginx:/etc/nginx/conf.d
+      - ./proxy/nginx:/etc/nginx/conf.d
     depends_on:
       - front-react
 
