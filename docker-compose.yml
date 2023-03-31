@@ -45,8 +45,9 @@ services:
   back-rust:
     container_name: back-rust
     build:
-      context: ./env/back/rust
+      context: ./back/rust
       dockerfile: Dockerfile
+      target: development
     restart: always
     volumes:
       - ./back/rust/src:/opt/
