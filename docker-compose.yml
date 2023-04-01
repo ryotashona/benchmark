@@ -1,60 +1,57 @@
 version: '3'
 
 services:
-  front-react:
-    container_name: front-react
-    build:
-      context: ./env/front/react
-      dockerfile: Dockerfile
-    restart: always
-    ports:
-      - 3000
-    volumes:
-      - ./src/front/react:/usr/src/app
-    environment:
-        # Fixes bug where websocket connection is fixed to default port 3000
-        - WDS_SOCKET_PORT=0
-
   back-php:
     container_name: back-php
     build:
-      context: ./env/back/php
+      context: ./back/php
       dockerfile: Dockerfile
-    volumes:
-      - ./src/back/php:/opt/
 
-#   back-golang:
-#     container_name: back-golang
+  back-golang:
+    container_name: back-golang
+    build:
+      context: ./back/golang
+      dockerfile: Dockerfile
+      target: deployment
+    restart: always
 
   back-rust:
     container_name: back-rust
     build:
-      context: ./env/back/rust
+      context: ./back/rust
       dockerfile: Dockerfile
-    tty: true
-    volumes:
-      - ./src/back/rust:/opt/
+      target: deployment
+    restart: always
 
-#   db-mysql:
-#     container_name: db-mysql
+  db:
+    container_name: db
+    build:
+      context: ./db/mysql
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - db-mysql-volume:/var/lib/mysql
+      - ./db/mysql/conf.d:/etc/mysql/conf.d
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bench
+      MYSQL_USER: bench
+      MYSQL_PASSWORD: bench
+    ports:
+      - 3306
 
   proxy-nginx:
     container_name: proxy-nginx
     build:
-      context: ./env/proxy/nginx
+      context: ./front
       dockerfile: Dockerfile
+      target: production
     hostname: proxy-nginx
     restart: always
     ports:
       - 80:80
-    volumes:
-      - ./src/proxy/nginx:/etc/nginx/conf.d
     depends_on:
-      - front-react
+      - back-rust
 
-#   phpmyadmin:
-#     container_name: phpmyadmin
-
-
-# volumes:
-#   mysql-volume:
+volumes:
+  db-mysql-volume:
