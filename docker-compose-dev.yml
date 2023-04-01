@@ -1,0 +1,107 @@
+version: '3'
+
+services:
+  front-react-dev:
+    container_name: front-react
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+      target: build
+    restart: always
+    command: npm start
+    ports:
+      - 3000
+    volumes:
+      - ./front/react/src:/usr/src/app
+    environment:
+        # Fixes bug where websocket connection is fixed to default port 3000
+        - WDS_SOCKET_PORT=0
+    depends_on:
+      - db-dev
+
+  back-php-dev:
+    container_name: back-php
+    build:
+      context: ./back/php
+      dockerfile: Dockerfile
+    volumes:
+      - ./back/php/src:/opt/
+    ports:
+      - 9000
+    depends_on:
+      - db-dev
+
+  back-golang-dev:
+    container_name: back-golang
+    build:
+      context: ./back/golang
+      dockerfile: Dockerfile
+      target: development
+    restart: always
+    volumes:
+      - ./back/golang/src:/opt/
+    ports:
+      - 9002
+    depends_on:
+      - db-dev
+
+  back-rust-dev:
+    container_name: back-rust
+    build:
+      context: ./back/rust
+      dockerfile: Dockerfile
+      target: development
+    restart: always
+    volumes:
+      - ./back/rust/src:/opt/
+    ports:
+      - 9001
+    depends_on:
+      - db-dev
+
+  db-dev:
+    container_name: db
+    build:
+      context: ./db/mysql
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - db-mysql-volume:/var/lib/mysql
+      - ./db/mysql/conf.d:/etc/mysql/conf.d
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bench
+      MYSQL_USER: bench
+      MYSQL_PASSWORD: bench
+    ports:
+      - 3306
+
+  phpmyadmin-dev:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - db-dev
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOSTS=db
+      - PMA_USER=bench
+      - PMA_PASSWORD=bench
+    ports:
+      - "8080:80"
+
+  proxy-nginx-dev:
+    container_name: proxy-nginx
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+      target: development
+    hostname: proxy-nginx
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - ./front/nginx_conf/dev:/etc/nginx/conf.d
+    depends_on:
+      - front-react-dev
+
+volumes:
+  db-mysql-volume:
