@@ -18,7 +18,7 @@ FROM nginx:1.23.3 AS production
 # ビルドステージからの成果物をコピー
 COPY --from=build /usr/src/app/react-app/build /usr/share/nginx/html
 # Nginxの設定ファイルをコピー
-COPY ./nginx_conf/nginx.prod.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx_conf/prod/nginx.prod.conf /etc/nginx/conf.d/default.conf
 # 80番ポートでサーバーを起動
 EXPOSE 80
 # サーバー実行
