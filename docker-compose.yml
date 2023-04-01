@@ -4,14 +4,8 @@ services:
   back-php:
     container_name: back-php
     build:
-      context: ./env/back/php
+      context: ./back/php
       dockerfile: Dockerfile
-    volumes:
-      - ./back/php/src:/opt/
-    ports:
-      - 9000
-    depends_on:
-      - db
 
   back-golang:
     container_name: back-golang
