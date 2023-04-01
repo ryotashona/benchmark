@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  front-react:
+  front-react-dev:
     container_name: front-react
     build:
       context: ./front
@@ -17,9 +17,9 @@ services:
         # Fixes bug where websocket connection is fixed to default port 3000
         - WDS_SOCKET_PORT=0
     depends_on:
-      - db
+      - db-dev
 
-  back-php:
+  back-php-dev:
     container_name: back-php
     build:
       context: ./back/php
@@ -29,9 +29,9 @@ services:
     ports:
       - 9000
     depends_on:
-      - db
+      - db-dev
 
-  back-golang:
+  back-golang-dev:
     container_name: back-golang
     build:
       context: ./back/golang
@@ -43,9 +43,9 @@ services:
     ports:
       - 9002
     depends_on:
-      - db
+      - db-dev
 
-  back-rust:
+  back-rust-dev:
     container_name: back-rust
     build:
       context: ./back/rust
@@ -57,17 +57,17 @@ services:
     ports:
       - 9001
     depends_on:
-      - db
+      - db-dev
 
-  db:
+  db-dev:
     container_name: db
     build:
-      context: ./env/db/mysql
+      context: ./db/mysql
       dockerfile: Dockerfile
     restart: always
     volumes:
       - db-mysql-volume:/var/lib/mysql
-      - ./env/db/mysql/conf.d:/etc/mysql/conf.d
+      - ./db/mysql/conf.d:/etc/mysql/conf.d
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: bench
@@ -76,10 +76,10 @@ services:
     ports:
       - 3306
 
-  phpmyadmin:
+  phpmyadmin-dev:
     image: phpmyadmin/phpmyadmin
     depends_on:
-      - db
+      - db-dev
     environment:
       - PMA_ARBITRARY=1
       - PMA_HOSTS=db
@@ -88,7 +88,7 @@ services:
     ports:
       - "8080:80"
 
-  proxy-nginx:
+  proxy-nginx-dev:
     container_name: proxy-nginx
     build:
       context: ./front
@@ -101,7 +101,7 @@ services:
     volumes:
       - ./front/nginx_conf/dev:/etc/nginx/conf.d
     depends_on:
-      - front-react
+      - front-react-dev
 
 volumes:
   db-mysql-volume:
