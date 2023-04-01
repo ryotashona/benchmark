@@ -34,8 +34,9 @@ services:
   back-golang:
     container_name: back-golang
     build:
-      context: ./env/back/golang
+      context: ./back/golang
       dockerfile: Dockerfile
+      target: development
     restart: always
     volumes:
       - ./back/golang/src:/opt/
