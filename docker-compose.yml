@@ -4,9 +4,11 @@ services:
   front-react:
     container_name: front-react
     build:
-      context: ./env/front/react
+      context: ./front
       dockerfile: Dockerfile
+      target: build
     restart: always
+    command: npm start
     ports:
       - 3000
     volumes:
@@ -88,14 +90,15 @@ services:
   proxy-nginx:
     container_name: proxy-nginx
     build:
-      context: ./env/proxy/nginx
+      context: ./front
       dockerfile: Dockerfile
+      target: development
     hostname: proxy-nginx
     restart: always
     ports:
       - 80:80
     volumes:
-      - ./proxy/nginx:/etc/nginx/conf.d
+      - ./front/nginx_conf/dev:/etc/nginx/conf.d
     depends_on:
       - front-react
 
