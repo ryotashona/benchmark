@@ -51,9 +51,10 @@ async fn io() -> Result<(), sqlx::Error> {
             .has_headers(false)
             .from_path(&out_csv)
             .expect("IN CSV OPEN ERROR");
+        let mut wdr_records = wdr.records();
         for result in rdr.records() {
             let in_record = result.expect("IN CSV READ ERROR");
-            let out_record = wdr.records().next().expect("msg").unwrap();
+            let out_record = wdr_records.next().expect("msg").unwrap();
 
             let in_str = in_record.iter().collect::<Vec<&str>>().join(",");
             let out_str = out_record.iter().collect::<Vec<&str>>().join(",");
