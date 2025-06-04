@@ -29,20 +29,3 @@ docker-compose up -d --build
 ```markdown
 docker-compose down
 ```
-
-# Setup Script
-To install Node.js and project dependencies locally, run:
-
-```bash
-./setup.sh
-```
-
-This command installs Node.js and then fetches npm dependencies for the React app.
-
-# Running Tests
-After running the setup script, execute tests from the React application directory:
-
-```bash
-cd front/react/src/react-app
-npm test
-```
