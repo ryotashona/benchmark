@@ -10,10 +10,23 @@ docker-compose -f docker-compose-dev.yml up -d --build
 
 rustはサーバー起動(ビルド)に時間がかかります。ログを見て確認してください。
 
+- Playwright コンテナで UI 確認する場合
+```markdown
+docker compose -f docker-compose-dev.yml -f docker-compose.playwright.yml up -d --build
+docker compose -f docker-compose-dev.yml -f docker-compose.playwright.yml exec playwright bash
+```
+Playwright コンテナ内では、アプリ本体へ `http://proxy-nginx-dev` でアクセスできます。
+必要に応じて `npx playwright test` や Playwright CLI をそのまま実行してください。
+ブラウザ確認の運用ルールは [docs/browser-verification.md](/home/ytana/work/benchmark/docs/browser-verification.md) を参照してください。
+
 
 - 終了方法
 ```markdown
 docker-compose -f docker-compose-dev.yml down
+```
+Playwright コンテナも同時に落とす場合は以下です。
+```markdown
+docker compose -f docker-compose-dev.yml -f docker-compose.playwright.yml down
 ```
 
 

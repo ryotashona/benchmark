@@ -1,99 +1,366 @@
-.App {
-  text-align: left;
-  padding: 0.5rem;
-  width: 40rem;
+:root {
+  --bg: #06131f;
+  --bg-accent: #0d2133;
+  --panel: rgba(8, 24, 38, 0.82);
+  --panel-strong: rgba(11, 31, 48, 0.95);
+  --line: rgba(137, 196, 244, 0.22);
+  --line-strong: rgba(126, 199, 255, 0.45);
+  --text: #f3f8fc;
+  --muted: #93abc0;
+  --accent: #68d2ff;
+  --accent-strong: #21a6f3;
+  --success: #2dd4bf;
+  --warning: #fbbf24;
+  --danger: #fb7185;
+  --shadow: 0 24px 60px rgba(1, 11, 21, 0.45);
+  --radius-xl: 28px;
+  --radius-lg: 20px;
+  --radius-md: 14px;
 }
 
-.App-logo {
-  height: 40vmin;
+* {
+  box-sizing: border-box;
+}
+
+.app-shell {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top left, rgba(33, 166, 243, 0.2), transparent 32%),
+    radial-gradient(circle at top right, rgba(45, 212, 191, 0.16), transparent 26%),
+    linear-gradient(180deg, #04111d 0%, #071520 48%, #091a28 100%);
+}
+
+.app-background {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(104, 210, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(104, 210, 255, 0.06) 1px, transparent 1px);
+  background-size: 96px 96px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.85), transparent);
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.app {
+  position: relative;
+  width: min(1180px, calc(100vw - 32px));
+  margin: 0 auto;
+  padding: 48px 0 72px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.hero,
+.bench-section {
+  position: relative;
+  backdrop-filter: blur(16px);
+  background: linear-gradient(180deg, rgba(14, 35, 52, 0.94), rgba(7, 21, 33, 0.9));
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(280px, 0.9fr);
+  gap: 24px;
+  padding: 32px;
+  margin-bottom: 24px;
+}
+
+.hero-kicker,
+.section-kicker,
+.hero-summary-label,
+.code-panel-title,
+.bench-note-title,
+.bench-lang,
+.bench-status {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero-kicker,
+.section-kicker {
+  margin: 0 0 12px;
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.hero h1,
+.section-heading h2 {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.05;
+}
+
+.hero h1 {
+  max-width: 12ch;
+  font-size: clamp(2.2rem, 5vw, 4.4rem);
+}
+
+.hero-description,
+.section-heading p,
+.bench-note p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.hero-description {
+  max-width: 62ch;
+  margin-top: 18px;
+  font-size: 1rem;
+}
+
+.hero-summary {
+  display: grid;
+  gap: 14px;
+  align-self: stretch;
+}
+
+.hero-summary div {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 110px;
+  padding: 20px;
+  background: linear-gradient(180deg, rgba(10, 28, 42, 0.95), rgba(5, 17, 28, 0.92));
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+}
+
+.hero-summary-label {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.hero-summary strong {
+  color: var(--text);
+  font-size: 1.2rem;
+}
+
+.sections {
+  display: grid;
+  gap: 24px;
+}
+
+.bench-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.3fr);
+  gap: 24px;
+  padding: 28px;
+}
+
+.bench-section-copy {
+  display: grid;
+  gap: 18px;
+}
+
+.section-heading {
+  display: grid;
+  gap: 10px;
+}
+
+.section-heading h2 {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+}
+
+.code-panel,
+.bench-note,
+.bench-card {
+  background: linear-gradient(180deg, rgba(8, 24, 38, 0.92), rgba(5, 16, 26, 0.92));
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+}
+
+.code-panel {
+  padding: 18px 20px;
+}
+
+.code-panel-title,
+.bench-note-title {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.code-panel pre,
+.bench-result pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: 'IBM Plex Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+}
+
+.code-panel pre {
+  color: #d8e9f8;
+  line-height: 1.75;
+}
+
+.bench-note {
+  padding: 18px 20px;
+}
+
+.bench-note p + p {
+  margin-top: 10px;
+}
+
+.bench-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
+}
+
+.bench-card {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  gap: 16px;
+  padding: 18px;
+  min-height: 280px;
+}
+
+.bench-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.bench-lang {
+  margin: 0;
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.bench-status {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  min-width: 78px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(147, 171, 192, 0.12);
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
 }
 
-.App-link {
-  color: #61dafb;
+.bench-status-loading {
+  color: var(--warning);
+  background: rgba(251, 191, 36, 0.12);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.bench-status-done {
+  color: var(--success);
+  background: rgba(45, 212, 191, 0.12);
+}
+
+.bench-status-error {
+  color: var(--danger);
+  background: rgba(251, 113, 133, 0.12);
+}
+
+.bench-button {
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
+  color: #03111d;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    opacity 120ms ease;
+  box-shadow: 0 10px 24px rgba(33, 166, 243, 0.28);
+}
+
+.bench-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 30px rgba(33, 166, 243, 0.32);
+}
+
+.bench-button:disabled {
+  opacity: 0.7;
+  cursor: wait;
+  transform: none;
+}
+
+.bench-result {
+  min-height: 144px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--panel-strong);
+}
+
+.bench-result pre {
+  color: #dff3ff;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.bench-result-loading {
+  display: grid;
+  place-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.bench-result-loading p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.bench-loading {
+  width: 42px;
+  height: 42px;
+}
+
+@media (max-width: 980px) {
+  .hero,
+  .bench-section {
+    grid-template-columns: 1fr;
   }
-  to {
-    transform: rotate(360deg);
+
+  .hero h1 {
+    max-width: 14ch;
+  }
+
+  .bench-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-.Bench {
-  display: flex;
-  margin-block-end: 2rem;
-}
+@media (max-width: 720px) {
+  .app {
+    width: min(100vw - 20px, 100%);
+    padding: 24px 0 48px;
+  }
 
-.Bench div {
-  min-width: 11rem;
-  margin: 0.5rem;
-  padding: 0.5rem;
-  border: 1px solid #000;
-  background-color: lightcyan;
-  border-radius: 0.5rem;
-  min-height: 11rem;
-}
+  .hero,
+  .bench-section {
+    padding: 20px;
+    border-radius: 24px;
+  }
 
-.Bench button {
-  border-radius: 0.5rem;
-  background-color: royalblue;
-  color: whitesmoke;
-  font-size: large;
-}
+  .hero-summary div {
+    min-height: auto;
+  }
 
-.Bench button:hover {
-  background-color: blue;
-}
+  .bench-grid {
+    grid-template-columns: 1fr;
+  }
 
-.Bench p {
-  font-size: medium;
-}
-
-.BenchDec h1{
-  margin: 0.5rem;
-}
-
-.BenchDec h2{
-  margin: 0.5rem;
-  padding: 0.5rem;
-  border: #000 solid;
-  border-radius: 1rem;
-  background-color: darkblue;
-}
-
-.BenchDec h2 p{
-  font-size: medium;
-  color: orangered;
-}
-
-.BenchDec pre{
-  margin: 0rem;
-  color: #f6f4f4;
-}
-
-.BenchDiv {
-  background-color: aqua;
-  border: #000 solid;
-  border-radius: 0.2rem;
-  margin-block-end: 0.2rem;
+  .bench-card {
+    min-height: 0;
+  }
 }
